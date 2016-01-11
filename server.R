@@ -24,6 +24,12 @@ shinyServer(function(input, output, session) {
     return(readJPEG("testImage/heStain.jpg"))
   })  
   
+  #Who could believe there isn't a mode function in R?
+  Mode <- function(x) {
+    ux <- unique(x)
+    ux[which.max(tabulate(match(x, ux)))]
+  }
+  
   #---------Show Image-------------------#
   #set up boolean to keep default image, and delete temp image
   del_bool <- FALSE
@@ -62,7 +68,7 @@ shinyServer(function(input, output, session) {
       } else if (input$choice == "median"){
         choice = median
       } else {
-        choice = which.max(table(.))
+        choice = Mode
       }
       
       # A temp file to save the output.
