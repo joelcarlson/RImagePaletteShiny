@@ -21,7 +21,12 @@ shinyUI(fluidPage(
                   "Number of Colors to Extract:",
                   min = 1,
                   max = 50,
-                  value = 5)
+                  value = 5),
+      selectInput("choice", "Function Type",
+                  c("Mean" = "mean",
+                    "Median" = "median",
+                    "Mode" = "mode")),
+      checkboxInput("vol_bool", label = "Volume", value = FALSE)
     ),
 
     # Show a plot of the generated distribution
