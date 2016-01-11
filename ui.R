@@ -21,12 +21,20 @@ shinyUI(fluidPage(
                   "Number of Colors to Extract:",
                   min = 1,
                   max = 50,
-                  value = 30)
+                  value = 5)
     ),
 
     # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("imgPlot")
+      fluidRow(
+        column(width=6,
+         plotOutput("imgPlot")
+         ),
+        column(width=6,
+         plotOutput("palettePlot")
+        )
+      )
+      
     )
   )
 ))
