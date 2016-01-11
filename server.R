@@ -40,13 +40,17 @@ shinyServer(function(input, output, session) {
     height <- session$clientData$output_imgPlot_height
     pixelratio <- session$clientData$pixelratio
     
-    if(is.null(input$image_file)){
-      image_file <- "testImage/heStain.jpg"
+    if(!is.null(input$image_file)){
+      if(str_detect(input$image_file$type, "png|jpg")){
+        image_file <- input$image_file$datapath
+        del_bool <- FALSE
+      } else {
+        image_file <- "testImage/heStain.jpg"
+      }
     } else {
-      image_file <- input$image_file$datapath
-      del_bool <- TRUE
+      image_file <- "testImage/heStain.jpg"
     }
-
+    
     list(src = image_file,
          contentType = 'image/png',
          width = width
