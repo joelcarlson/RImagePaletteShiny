@@ -77,10 +77,10 @@ shinyServer(function(input, output, session) {
       
       
       png(outfile, width=width, height=height)
-      show_col(image_palette(image_read,
+      show_col(sort(image_palette(image_read,
                              n=input$bins,
                              volume=input$vol_bool,
-                             choice=choice))
+                             choice=choice)))
       dev.off()
       
       # Return a list containing the filename
