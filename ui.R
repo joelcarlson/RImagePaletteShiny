@@ -21,12 +21,16 @@ shinyUI(fluidPage(
                   "Number of Colors to Extract:",
                   min = 1,
                   max = 50,
-                  value = 5),
-      selectInput("choice", "Function Type",
+                  value = 9),
+      selectInput("choice", "Color Extraction Function",
                   c("Mean" = "mean",
                     "Median" = "median",
                     "Mode" = "mode")),
-      checkboxInput("vol_bool", label = "Volume", value = FALSE)
+      checkboxGroupInput("checkboxes", label = "", 
+                         choices = list("Volume" = "volume", "Labels" = "label"), inline=TRUE),
+      
+      numericInput("set_seed", label = "Set Seed", value = 1, step=1)
+      
     ),
 
     # Show a plot of the generated distribution
@@ -36,7 +40,7 @@ shinyUI(fluidPage(
          plotOutput("imgPlot")
          ),
         column(width=6,
-         plotOutput("palettePlot")
+         plotOutput("palPlot")
         )
       )
       

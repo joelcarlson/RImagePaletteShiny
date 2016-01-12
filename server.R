@@ -8,7 +8,8 @@
 library(shiny)
 library(RImagePalette)
 library(png);library(jpeg)
-library(scales);library(stringr)
+library(ggplot2);library(stringr)
+source("scripts/show_colors.R")
 
 shinyServer(function(input, output, session) {
   #Function to read image from input as JPEG or PNG
@@ -58,14 +59,8 @@ shinyServer(function(input, output, session) {
   }, deleteFile = del_bool)
   
   #--------Show Palette-----------#
-  output$palettePlot <- renderImage({
-      width  <- session$clientData$output_palettePlot_width
-      height <- session$clientData$output_palettePlot_height
-      pixelratio <- session$clientData$pixelratio
-      
-      #get palette for image
+  output$palPlot <- renderPlot({
       image_read <- image_read()
-      
       #Get function type from radiobuttons
       if(input$choice == "mean"){
         choice <- mean
@@ -75,37 +70,16 @@ shinyServer(function(input, output, session) {
         choice = Mode
       }
       
-      # A temp file to save the output.
-      # This file will be removed later by renderImage
-      outfile <- tempfile(fileext='.png')
+      if(!is.na(input$set_seed)) set.seed(input$set_seed) 
+      volume <- ifelse("volume" %in% input$checkboxes, TRUE, FALSE)
+      label <- ifelse("label" %in% input$checkboxes, TRUE, FALSE)
+        
+        
       
-      
-      png(outfile, width=width, height=height)
-      show_col(sort(image_palette(image_read,
+      show_colors(image_palette(image_read,
                              n=input$bins,
-                             volume=input$vol_bool,
-                             choice=choice)))
-      dev.off()
-      
-      # Return a list containing the filename
-      list(src = outfile,
-           contentType = 'image/png',
-           width = width
-           )
-    }, deleteFile = TRUE)  
-  
-  output$distPlot <- renderPlot({
-
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2]
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
-
-  })
-
-
+                             volume=volume,
+                             choice=choice), label)
+    })
 
 })
