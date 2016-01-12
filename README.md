@@ -1,5 +1,5 @@
 # RImagePalette Package Demo
 
-Just a fun way to play around with the palette extractor
+An interactive way to play around with the package
 
-WIP
+Live [here](https://jnkcarlson.shinyapps.io/RImagePaletteShiny/)
