@@ -5,9 +5,9 @@
 # http://shiny.rstudio.com
 #
 
-library(shiny)
+library(shiny); library(shinythemes)
 
-shinyUI(fluidPage(
+shinyUI(fluidPage(theme=shinytheme("flatly"),
 
   # Application title
   titlePanel("RImagePalette Package Demo"),
@@ -25,7 +25,8 @@ shinyUI(fluidPage(
       selectInput("choice", "Color Extraction Function",
                   c("Mean" = "mean",
                     "Median" = "median",
-                    "Mode" = "mode")),
+                    "Mode" = "mode"),
+                  selected="mode"),
       checkboxGroupInput("checkboxes", label = "", 
                          choices = list("Volume" = "volume", "Labels" = "label"), inline=TRUE),
       

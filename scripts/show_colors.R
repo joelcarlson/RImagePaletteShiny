@@ -15,16 +15,26 @@ show_colors <- function(pal, labels=FALSE){
     labs <- NA
   }
   
+  
   ggplot(data=pal, aes(x=nrow, y=rev(ncol), label=labs) ) + 
     geom_tile(aes(fill=pal)) + 
     geom_text(na.rm=TRUE)+
     guides(fill=FALSE)+
+    labs(x=NULL, y=NULL, title=NULL)+
+    scale_x_continuous(expand=c(0,0))+
+    scale_y_continuous(expand=c(0,0))+
+    #coord_cartesian(xlim=c(0,ncol ), ylim=c(0, nrow))+
     scale_fill_manual(values=pal$pal) +
     theme(axis.title=element_blank(),
           axis.text=element_blank(),
           axis.ticks=element_blank(),
           panel.grid=element_blank(),
-          panel.background=element_blank())
+          panel.background=element_blank(),
+          panel.border=element_blank(),
+          plot.background=element_blank(),
+          plot.margin=unit(c(0,0,0,0), "null"),
+          panel.margin=unit(c(0,0,0,0), "null")
+          )
 }
 
 

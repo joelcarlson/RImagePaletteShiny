@@ -16,13 +16,13 @@ shinyServer(function(input, output, session) {
   image_read <- reactive({
     image_in <- input$image_file
     if(!is.null(image_in)){
-      if(str_detect(image_in$type, "jpg")){
+      if(str_detect(image_in$type, "jpg|JPG|jpeg|JPEG")){
         return(readJPEG(image_in$datapath))
-      } else if(str_detect(image_in$type, "png")) {
+      } else if(str_detect(image_in$type, "png|PNG")) {
         return(readPNG(image_in$datapath))
       }
     }
-    return(readJPEG("testImage/heStain.jpg"))
+    return(readJPEG("defaultImage/celery.jpg"))
   })  
   
   #Who could believe there isn't a mode function in R?
@@ -42,14 +42,9 @@ shinyServer(function(input, output, session) {
     pixelratio <- session$clientData$pixelratio
     
     if(!is.null(input$image_file)){
-      if(str_detect(input$image_file$type, "png|jpg")){
-        image_file <- input$image_file$datapath
-        del_bool <- FALSE
-      } else {
-        image_file <- "testImage/heStain.jpg"
-      }
+      image_file <- input$image_file$datapath
     } else {
-      image_file <- "testImage/heStain.jpg"
+      image_file <- "defaultImage/celery.jpg"
     }
     
     list(src = image_file,
@@ -70,16 +65,15 @@ shinyServer(function(input, output, session) {
         choice = Mode
       }
       
+      #Set parameters and seed
       if(!is.na(input$set_seed)) set.seed(input$set_seed) 
       volume <- ifelse("volume" %in% input$checkboxes, TRUE, FALSE)
       label <- ifelse("label" %in% input$checkboxes, TRUE, FALSE)
         
-        
-      
       show_colors(image_palette(image_read,
-                             n=input$bins,
-                             volume=volume,
-                             choice=choice), label)
+                                n=input$bins,
+                                volume=volume,
+                                choice=choice), label)
     })
 
 })
